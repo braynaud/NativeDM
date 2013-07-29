@@ -10,11 +10,9 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
-import android.content.res.AssetManager;
  
 public class MainActivity extends Activity implements OnTouchListener {
     private SoundPool soundPool;
-    AssetManager am = this.getAssets();
     private int[] soundID=new int[8];
     boolean loaded = false;
     private int i=0;
@@ -52,14 +50,9 @@ public class MainActivity extends Activity implements OnTouchListener {
                  loaded = true;
              }
          });
-       /* try {
-			soundID[0] = soundPool.load(am.openFd("kit/kick.wav"), 1);
-			soundID[1] = soundPool.load(am.openFd("kit/snare.wav"), 1);
-	  		soundID[2] = soundPool.load(am.openFd("kit/clap.wav"), 1);
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}*/
+        soundID[0] = soundPool.load(this, R.raw.kick, 1);
+        soundID[1] = soundPool.load(this, R.raw.snare, 1);
+	  	soundID[2] = soundPool.load(this, R.raw.clap, 1);
   		soundID[3] = soundPool.load(this, R.raw.cc, 1);
   		soundID[4] = soundPool.load(this, R.raw.riffe, 1);
   		soundID[5] = soundPool.load(this, R.raw.riffc, 1);
