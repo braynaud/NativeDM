@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
@@ -50,9 +51,10 @@ public class LoginActivity extends Activity {
 	private TextView mLoginStatusMessageView;
 	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		Log.d("tag","login running");
+		final Activity mainActivityClass = this;
 		setContentView(R.layout.activity_login);
 
 		// Set up the login form.
@@ -83,11 +85,12 @@ public class LoginActivity extends Activity {
 					@Override
 					public void onClick(View view) {
 						attemptLogin();
+						Log.d("tag","before intent");
+						Intent mainIntent = new Intent(mainActivityClass, MainActivity.class);
+						startActivity(mainIntent);
 					}
 				});
 		
-		Intent mainIntent = new Intent(this, MainActivity.class);
-		startActivity(mainIntent);
 	}
 
 	@Override

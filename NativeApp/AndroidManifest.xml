@@ -24,7 +24,8 @@
         </activity>
         <activity
             android:name="com.example.nativeapp.MainActivity"
-            android:windowSoftInputMode="adjustResize|stateVisible" >
+            android:windowSoftInputMode="adjustResize|stateVisible" 
+            android:parentActivityName = "com.example.nativeapp">
         </activity>
     </application>
 
