@@ -29,11 +29,6 @@
             android:parentActivityName="com.example.nativeapp"
             android:windowSoftInputMode="adjustResize|stateVisible" >
         </activity>
-        <activity
-            android:name="com.example.nativeapp.MenuActivity"
-            android:screenOrientation="landscape"
-            android:label="@string/title_activity_menu" >
-        </activity>
     </application>
 
 </manifest>
