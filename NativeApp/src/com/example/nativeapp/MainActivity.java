@@ -1,7 +1,6 @@
 package com.example.nativeapp;
 
 import java.io.IOException;
-
 import android.app.Activity;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -10,6 +9,7 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+
  
 public class MainActivity extends Activity implements OnTouchListener {
     private SoundPool soundPool;
@@ -58,6 +58,19 @@ public class MainActivity extends Activity implements OnTouchListener {
   		soundID[5] = soundPool.load(this, R.raw.riffc, 1);
   		soundID[6] = soundPool.load(this, R.raw.riffa, 1);
   		soundID[7] = soundPool.load(this, R.raw.riffd4, 1);
+  		
+  		//Here is the Parse initialization for the Android native app
+  		//this initialization sets the application id and client key:
+  		/*Parse.initialize(this, "C6MbpXJE87BnvKlLexBBhp2JhO3IGZzC9yohGjP5", 
+  				"SFGyPjJglavmTiACqqHflt0M4eJeymagWP8eL18v"); 
+  		
+  		//This statement tracks statistics around application opens
+  		ParseAnalytics.trackAppOpened(getIntent());
+  		
+  		ParseObject testObject = new ParseObject("TestObject");
+		testObject.put("foo", "bar");
+		testObject.saveInBackground();*/
+  		
     }
  
     @Override
@@ -88,6 +101,9 @@ public class MainActivity extends Activity implements OnTouchListener {
                 soundPool.play(soundID[i], volume, volume, 1, 0, 1f);
             }
         }
+    	
         return false;
+        
     }
+   
 }
