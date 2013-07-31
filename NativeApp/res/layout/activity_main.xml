@@ -8,18 +8,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:screenOrientation="landscape"
-    tools:context=".MainActivity" >
-
-    <Button
-        android:id="@+id/Button01"
-        android:layout_width="110dp"
-        android:layout_height="100dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="15dp"
-        
-        android:tag="Button01" />
+    tools:context=".MainActivity">
 
     <Button
         android:id="@+id/Button03"
@@ -88,5 +77,53 @@
         android:layout_alignLeft="@+id/Button04"
         
         android:tag="Button08" />
+
+    <Button
+        android:id="@+id/Button01"
+        android:layout_width="110dp"
+        android:layout_height="100dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="31dp"
+        android:layout_marginTop="38dp"
+        android:tag="Button01" />
+
+    <Button
+        android:id="@+id/kit3"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/Button04"
+        android:layout_alignLeft="@+id/Button04"
+        android:text="kit 3" />
+
+    <Button
+        android:id="@+id/kit2"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/kit3"
+        android:layout_alignBottom="@+id/kit3"
+        android:layout_alignRight="@+id/Button03"
+        android:text="kit 2" />
+
+    <Button
+        android:id="@+id/kit1"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/kit2"
+        android:layout_alignBottom="@+id/kit2"
+        android:layout_toLeftOf="@+id/kit2"
+        android:text="kit 1" />
+
+    <Button
+        android:id="@+id/menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/kit1"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="14dp"
+        android:text="menu" />
 
 </RelativeLayout>
