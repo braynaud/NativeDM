@@ -34,6 +34,7 @@ public class LoginActivity extends Activity {
   protected String clientKey = "liTYaW6SCcVkoM9KFL03mQsQtv8nKq96umPv54DP";
   protected String applicationId = "WZDdgyCHIW9EB3qh8uOyhh0ZeKkJOMv3j7DJVcW6";
 
+
   /**
    * Twitter app consumer key
    */
