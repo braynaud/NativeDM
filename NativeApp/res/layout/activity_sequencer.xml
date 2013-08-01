@@ -1,0 +1,313 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".SequencerActivity" >
+
+    <ToggleButton
+        android:id="@+id/timeDiv1"
+        android:layout_width="29dp"
+        android:layout_height="29dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:textOn=""
+        android:textOff=""/>
+
+    <ToggleButton
+        android:id="@+id/timeDiv2"
+        android:layout_width="29dp"
+        android:layout_height="29dp"
+        android:layout_alignBaseline="@+id/timeDiv1"
+        android:layout_alignBottom="@+id/timeDiv1"
+        android:layout_toRightOf="@+id/timeDiv1"
+        android:textOn=""
+        android:textOff="" />
+
+    <ToggleButton
+        android:id="@+id/timeDiv3"
+        android:layout_width="29dp"
+        android:layout_height="29dp"
+        android:layout_alignBottom="@+id/timeDiv2"
+        android:layout_toRightOf="@+id/timeDiv2"
+        android:textOn=""
+        android:textOff="" />
+
+    <ToggleButton
+        android:id="@+id/timeDiv4"
+        android:layout_width="29dp"
+        android:layout_height="29dp"
+        android:layout_alignBaseline="@+id/timeDiv3"
+        android:layout_alignBottom="@+id/timeDiv3"
+        android:layout_toRightOf="@+id/timeDiv3"
+        android:textOn=""
+        android:textOff="" />
+
+    <ToggleButton
+        android:id="@+id/timeDiv5"
+        android:layout_width="29dp"
+        android:layout_height="29dp"
+        android:layout_alignBaseline="@+id/timeDiv4"
+        android:layout_alignBottom="@+id/timeDiv4"
+        android:layout_toRightOf="@+id/timeDiv4"
+        android:textOn=""
+        android:textOff="" />
+
+    <ToggleButton
+        android:id="@+id/timeDiv6"
+        android:layout_width="29dp"
+        android:layout_height="29dp"
+        android:layout_alignBaseline="@+id/timeDiv5"
+        android:layout_alignBottom="@+id/timeDiv5"
+        android:layout_toRightOf="@+id/timeDiv5"
+        android:textOn=""
+        android:textOff="" />
+
+    <ToggleButton
+        android:id="@+id/timeDiv7"
+        android:layout_width="29dp"
+        android:layout_height="29dp"
+        android:layout_alignBaseline="@+id/timeDiv6"
+        android:layout_alignBottom="@+id/timeDiv6"
+        android:layout_toRightOf="@+id/timeDiv6"
+        android:textOn=""
+        android:textOff="" />
+
+    <ToggleButton
+        android:id="@+id/timeDiv10"
+        android:layout_width="29dp"
+        android:layout_height="29dp"
+        android:layout_alignBaseline="@+id/timeDiv9"
+        android:layout_alignBottom="@+id/timeDiv9"
+        android:layout_toRightOf="@+id/timeDiv9"
+        android:textOn=""
+        android:textOff="" />
+
+    <ToggleButton
+        android:id="@+id/timeDiv9"
+        android:layout_width="29dp"
+        android:layout_height="29dp"
+        android:layout_alignTop="@+id/timeDiv8"
+        android:layout_toRightOf="@+id/timeDiv8"
+        android:textOn=""
+        android:textOff="" />
+
+    <ToggleButton
+        android:id="@+id/timeDiv11"
+        android:layout_width="29dp"
+        android:layout_height="29dp"
+        android:layout_alignBaseline="@+id/timeDiv10"
+        android:layout_alignBottom="@+id/timeDiv10"
+        android:layout_toRightOf="@+id/timeDiv10" 
+        android:textOn=""
+        android:textOff=""/>
+
+    <ToggleButton
+        android:id="@+id/timeDiv12"
+        android:layout_width="29dp"
+        android:layout_height="29dp"
+        android:layout_alignBaseline="@+id/timeDiv11"
+        android:layout_alignBottom="@+id/timeDiv11"
+        android:layout_toRightOf="@+id/timeDiv11"
+        android:textOn=""
+        android:textOff="" />
+
+    <ToggleButton
+        android:id="@+id/timeDiv13"
+        android:layout_width="29dp"
+        android:layout_height="29dp"
+        android:layout_alignBaseline="@+id/timeDiv12"
+        android:layout_alignBottom="@+id/timeDiv12"
+        android:layout_toRightOf="@+id/timeDiv12"
+        android:textOn=""
+        android:textOff="" />
+
+    <ToggleButton
+        android:id="@+id/timeDiv14"
+        android:layout_width="29dp"
+        android:layout_height="29dp"
+        android:layout_alignBaseline="@+id/timeDiv13"
+        android:layout_alignBottom="@+id/timeDiv13"
+        android:layout_toRightOf="@+id/timeDiv13"
+        android:textOn=""
+        android:textOff="" />
+
+    <ToggleButton
+        android:id="@+id/timeDiv15"
+        android:layout_width="29dp"
+        android:layout_height="29dp"
+        android:layout_alignBaseline="@+id/timeDiv14"
+        android:layout_alignBottom="@+id/timeDiv14"
+        android:layout_toRightOf="@+id/timeDiv14"
+        android:textOn=""
+        android:textOff="" />
+
+    <ToggleButton
+        android:id="@+id/timeDiv16"
+        android:layout_width="29dp"
+        android:layout_height="29dp"
+        android:layout_alignBaseline="@+id/timeDiv15"
+        android:layout_alignBottom="@+id/timeDiv15"
+        android:layout_toRightOf="@+id/timeDiv15"
+        android:textOn=""
+        android:textOff="" />
+
+    <ToggleButton
+        android:id="@+id/ToggleButton01"
+        android:layout_width="29dp"
+        android:layout_height="29dp"
+        android:layout_alignBaseline="@+id/timeDiv16"
+        android:layout_alignBottom="@+id/timeDiv16"
+        android:layout_toRightOf="@+id/timeDiv16"
+        android:textOn=""
+        android:textOff="" />
+
+    <ToggleButton
+        android:id="@+id/timeDiv8"
+        android:layout_width="29dp"
+        android:layout_height="29dp"
+        android:layout_alignTop="@+id/timeDiv7"
+        android:layout_toRightOf="@+id/timeDiv7"
+        android:textOn=""
+        android:textOff="" />
+
+    <Button
+        android:id="@+id/pad2"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignBaseline="@+id/pad1"
+        android:layout_alignBottom="@+id/pad1"
+        android:layout_toRightOf="@+id/pad1"
+        android:text="" />
+
+    <Button
+        android:id="@+id/pad4"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignBaseline="@+id/pad3"
+        android:layout_alignBottom="@+id/pad3"
+        android:layout_toRightOf="@+id/pad3"
+        android:text="" />
+
+    <Button
+        android:id="@+id/pad5"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignBaseline="@+id/pad4"
+        android:layout_alignBottom="@+id/pad4"
+        android:layout_toRightOf="@+id/pad4"
+        android:text="" />
+
+    <Button
+        android:id="@+id/pad3"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignBaseline="@+id/pad2"
+        android:layout_alignBottom="@+id/pad2"
+        android:layout_toRightOf="@+id/pad2"
+        android:text="" />
+
+    <Button
+        android:id="@+id/pad6"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignBaseline="@+id/pad5"
+        android:layout_alignBottom="@+id/pad5"
+        android:layout_toRightOf="@+id/pad5"
+        android:text="" />
+
+    <Button
+        android:id="@+id/pad7"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignTop="@+id/pad6"
+        android:layout_toRightOf="@+id/pad6"
+        android:text="" />
+
+    <Button
+        android:id="@+id/pad8"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignBaseline="@+id/pad7"
+        android:layout_alignBottom="@+id/pad7"
+        android:layout_toRightOf="@+id/pad7"
+        android:text="" />
+
+    <Button
+        android:id="@+id/menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/pad2"
+        android:text="menu" />
+
+    <Button
+        android:id="@+id/help"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/pad2"
+        android:layout_alignTop="@+id/menu"
+        android:text="help" />
+
+    <Button
+        android:id="@+id/kit2"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/kit1"
+        android:layout_alignBottom="@+id/kit1"
+        android:layout_toRightOf="@+id/kit1"
+        android:text="kit 2" />
+
+    <Button
+        android:id="@+id/kit3"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/kit2"
+        android:layout_alignBottom="@+id/kit2"
+        android:layout_toRightOf="@+id/kit2"
+        android:text="kit 3" />
+
+    <Button
+        android:id="@+id/pad1"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_above="@+id/timeDiv1"
+        android:layout_alignLeft="@+id/timeDiv1"
+        android:layout_marginBottom="18dp"
+        android:layout_marginLeft="14dp" />
+
+    <Button
+        android:id="@+id/kit1"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/timeDiv13"
+        android:layout_alignTop="@+id/help"
+        android:text="kit 1" />
+
+    <SeekBar
+        android:id="@+id/seekBar1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/pad2"
+        android:layout_alignLeft="@+id/pad1"
+        android:layout_alignRight="@+id/kit3"
+        android:layout_marginBottom="15dp" />
+
+    <ToggleButton
+        android:id="@+id/playPause"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/help"
+        android:layout_alignBottom="@+id/help"
+        android:layout_alignLeft="@+id/timeDiv6"
+        android:textOn="Pause"
+        android:textOff="Play" />
+
+</RelativeLayout>

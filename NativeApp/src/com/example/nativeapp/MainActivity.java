@@ -3,6 +3,7 @@ package com.example.nativeapp;
 import java.io.IOException;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.media.SoundPool.OnLoadCompleteListener;
@@ -16,6 +17,7 @@ public class MainActivity extends Activity implements OnTouchListener {
     private int[] soundID=new int[8];
     boolean loaded = false;
     private int i=0;
+    private Activity sequencerActivityClass;
     
  
     /** Called when the activity is first created. */
@@ -23,6 +25,7 @@ public class MainActivity extends Activity implements OnTouchListener {
     public void onCreate(Bundle savedInstanceState) {
     	 super.onCreate(savedInstanceState);
          setContentView(R.layout.activity_main);
+         sequencerActivityClass = this;
          View a = findViewById(R.id.Button01);
          a.setOnTouchListener(this);
          View b = findViewById(R.id.Button02);
@@ -55,6 +58,7 @@ public class MainActivity extends Activity implements OnTouchListener {
          load();
     }
  
+    
     public void load()
     {
     	soundPool.setOnLoadCompleteListener(new OnLoadCompleteListener() {
@@ -132,7 +136,8 @@ public class MainActivity extends Activity implements OnTouchListener {
     	}
     	else if(v==findViewById(R.id.menu))
     	{
-    		//switch to menu page
+    		Intent mainIntent = new Intent(sequencerActivityClass, SequencerActivity.class);
+			startActivity(mainIntent);
     	}
     	else if(v==findViewById(R.id.kit1))
     	{
