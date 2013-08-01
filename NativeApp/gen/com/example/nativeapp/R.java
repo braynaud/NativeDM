@@ -32,11 +32,11 @@ public final class R {
         public static final int Button06=0x7f09000c;
         public static final int Button07=0x7f09000d;
         public static final int Button08=0x7f09000e;
-        public static final int action_forgot_password=0x7f090018;
-        public static final int action_settings=0x7f090019;
+        public static final int action_forgot_password=0x7f090019;
+        public static final int action_settings=0x7f090018;
         public static final int button1=0x7f090014;
-        public static final int button2=0x7f090015;
-        public static final int button3=0x7f090016;
+        public static final int button2=0x7f090016;
+        public static final int button3=0x7f090015;
         public static final int button4=0x7f090017;
         public static final int email=0x7f090003;
         public static final int kit1=0x7f090011;
@@ -52,14 +52,16 @@ public final class R {
         public static final int textView1=0x7f090013;
     }
     public static final class layout {
-        public static final int activity_login=0x7f030000;
-        public static final int activity_main=0x7f030001;
-        public static final int activity_menu=0x7f030002;
+        public static final int activity_browser=0x7f030000;
+        public static final int activity_login=0x7f030001;
+        public static final int activity_main=0x7f030002;
+        public static final int activity_menu=0x7f030003;
     }
     public static final class menu {
-        public static final int login=0x7f080000;
-        public static final int main=0x7f080001;
-        public static final int menu=0x7f080002;
+        public static final int browser=0x7f080000;
+        public static final int login=0x7f080001;
+        public static final int main=0x7f080002;
+        public static final int menu=0x7f080003;
     }
     public static final class raw {
         public static final int cc=0x7f040000;

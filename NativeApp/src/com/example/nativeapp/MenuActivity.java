@@ -42,7 +42,9 @@ public class MenuActivity extends Activity {
         final Button browse = (Button) findViewById(R.id.button4);
         browse.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // Perform action on click
+                // Navigate to Browser page
+            	Intent mainIntent = new Intent(menuActivityClass, BrowserActivity.class);
+				startActivity(mainIntent);
             }
         });
 	}
