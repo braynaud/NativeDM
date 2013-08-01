@@ -2,8 +2,6 @@ package com.example.nativeapp;
 //add previous to config.xml
 
 
-import com.parse.ParseObject;
-
 import android.media.SoundPool;
 import android.media.AudioManager;
 
@@ -35,6 +33,6 @@ public class Sound
 			sounds=kit.load(myUri, 1);
 			kit.play(sounds,1,1,0,0,1);
 		}
-	
 	}	
+
 }

@@ -1,3 +1,4 @@
+
 /**
  * This is a class that enables a user to login via facebook, twitter or directly to parse.com
  * @author Derrick Orare
@@ -394,4 +395,3 @@ private void invalidUsernameAlert() {
 	}
  
 }
-
