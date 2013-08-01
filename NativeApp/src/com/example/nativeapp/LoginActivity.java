@@ -54,7 +54,7 @@ public class LoginActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Log.d("tag","login running");
-		final Activity mainActivityClass = this;
+		final Activity loginActivityClass = this;
 		setContentView(R.layout.activity_login);
 
 		// Set up the login form.
@@ -86,7 +86,7 @@ public class LoginActivity extends Activity {
 					public void onClick(View view) {
 						attemptLogin();
 						Log.d("tag","before intent");
-						Intent mainIntent = new Intent(mainActivityClass, MainActivity.class);
+						Intent mainIntent = new Intent(loginActivityClass, MenuActivity.class);
 						startActivity(mainIntent);
 					}
 				});

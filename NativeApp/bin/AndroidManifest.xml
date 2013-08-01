@@ -15,9 +15,9 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.example.nativeapp.LoginActivity"
-            android:screenOrientation="landscape"
             android:fillViewport="true"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="landscape" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,10 +26,14 @@
         </activity>
         <activity
             android:name="com.example.nativeapp.MainActivity"
-            android:screenOrientation="landscape"
             android:fillViewport="true"
             android:parentActivityName="com.example.nativeapp"
+            android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustResize|stateVisible" >
+        </activity>
+        <activity
+            android:name="com.example.nativeapp.MenuActivity"
+            android:label="@string/title_activity_menu" >
         </activity>
     </application>
 
