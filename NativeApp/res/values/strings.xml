@@ -6,4 +6,12 @@
     <string name="title_activity_menu">MenuActivity</string>
     <string name="hello_world">Hello world!</string>
 	<string name="title_activity_browser">BrowserActivty</string>
+	<string name="username">Username</string>
+  	<string name="password">Password</string>
+  	<string name="login">Log in</string>
+  	<string name="also_login">Alternatively, login using:</string>
+  	<string name="facebook">Facebook</string>
+  	<string name="signup">SignUp</string>
+  	<string name="twitter">Twitter</string>
+  	<string name ="instructions">If you do not have an account, enter username and password and click "SIGNUP".</string>
 </resources>
