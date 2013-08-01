@@ -1,5 +1,8 @@
+/**
+ * This is a class that enables a user to login via facebook, twitter or directly to parse.com
+ * @author Derrick Orare
+ */
 package com.example.nativeapp;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -9,11 +12,11 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff.Mode;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
 import com.parse.LogInCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
@@ -21,7 +24,6 @@ import com.parse.ParseTwitterUtils;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
-
 
 public class LoginActivity extends Activity {
 
@@ -40,7 +42,19 @@ public class LoginActivity extends Activity {
    * Twitter app consumer secret
    */
   protected String twitterConsumerSecret = "M45UL6rX3KHYjZgcSupqREeMU5VFcYfnrHZl1mtGw";
-
+  
+  /**
+   * Facebook app consumer key 
+   */
+ 
+  protected String facebookConsumerSecret;
+  
+  /**
+   * Facebook app consumer secret
+   */
+  
+  protected String facebookConsumerKey;
+  
   /**
    * This is the onCreate method
    * @param applicationId, clientID are the application id and client id for the parse initialization 
@@ -54,10 +68,12 @@ public class LoginActivity extends Activity {
     //ParseFacebookUtils.initialize(applicationId);
     
     setContentView(R.layout.main);
-    ((Button) findViewById(R.id.login)).getBackground().setColorFilter(Color.parseColor("#E0E0E0"), Mode.SRC_ATOP);
-    ((Button) findViewById(R.id.facebook)).getBackground().setColorFilter(Color.parseColor("#E0E0E0"), Mode.SRC_IN);
-    ((Button) findViewById(R.id.twitter)).getBackground().setColorFilter(Color.parseColor("#00CCFF"), Mode.SRC_ATOP);
-    ((Button) findViewById(R.id.signupbutton)).getBackground().setColorFilter(Color.parseColor("#E0E0E0"), Mode.SRC_ATOP);
+    ((Button) findViewById(R.id.login)).getBackground().setColorFilter(Color.parseColor("#989898"), Mode.SRC_ATOP);
+    ((Button) findViewById(R.id.facebook)).getBackground().setColorFilter(Color.parseColor("#424de2"), Mode.SRC_IN);
+    ((Button) findViewById(R.id.twitter)).getBackground().setColorFilter(Color.parseColor("#5ca6ce"), Mode.SRC_ATOP);
+    ((Button) findViewById(R.id.signupbutton)).getBackground().setColorFilter(Color.parseColor("#989898"), Mode.SRC_ATOP);
+    
+    
   }
 
   /**
@@ -73,12 +89,13 @@ public class LoginActivity extends Activity {
       public void done(ParseUser user, ParseException err) {
     	  loginDialog.dismiss();
         if (user == null) {
-          //listener.onError("twitter", err);
         } else if (user.isNew()) {
         	signedUpSuccessAlert();
+        	//After someone has been signed up, link their accounts to parse using the 
+        	//TwitterUtils.link to make sure they are linked to their account
+        	linkTwitterUser();
         	
         } else {
-          //listener.onSignin("twitter", user);
         	
           loginSuccess();
  
@@ -86,6 +103,7 @@ public class LoginActivity extends Activity {
       }
       
     });
+    
   }
 
 
@@ -95,6 +113,21 @@ public class LoginActivity extends Activity {
    */
 
  /* public void facebookCallback(View v) {
+   //Get the users inputed USERNAME and PASSWORD from the login page 
+    String username = getLoginUserName();
+    String password = getLoginPwd();
+    
+    //Verify that the usernames and password are valid before you register the user
+	  if (username.length() < 1) {
+		  	invalidUsernameAlert();
+		    dialog.dismiss();
+		    return;
+	  }
+	  if (password.length() <1){
+		  	invalidPasswordAlert();
+		    dialog.dismiss();
+		    return;
+	  }
     ParseTwitterUtils.logIn(this, new LogInCallback() {
       @Override
       public void done(ParseUser user, ParseException err) {
@@ -123,22 +156,41 @@ public class LoginActivity extends Activity {
   private String getLoginPwd() {
     return ((EditText) findViewById(R.id.pwd)).getText().toString();
   }
+  /**
+   * LOGIN directly without using facebook or twitter
+   * @param View v
+   */
 
   public void loginCallback(View v) {
     final ProgressDialog dialog = ProgressDialog.show(this, "",
         "Logging in ...", true);
 
     //Get the users inputed USERNAME and PASSWORD from the login page 
+    String username = getLoginUserName();
+    String password = getLoginPwd();
+    
+    //Verify that the user names and password are valid before you register the user
+	  if (username.length() < 1) {
+		  	invalidUsernameAlert();
+		    dialog.dismiss();
+		    return;
+	  }
+	  if (password.length() <1){
+		  	invalidPasswordAlert();
+		    dialog.dismiss();
+		    return;
+	  }
+    
     ParseUser.logInInBackground(getLoginUserName(), getLoginPwd(), new LogInCallback() {
+
+
       public void done(ParseUser user, ParseException e) {
         dialog.dismiss();
         if (user != null ) {
           //listener.onSignin("native", user);
         	
-          //startActivity(new Intent(LoginActivity.this, MainActivity.class));
         	Log.d("Message","Login SUCCESS");
         	loginSuccessfulAlert();
-        
         	loginSuccess();
         }
          //Otherwise if the user is new and doesnt have an account
@@ -148,43 +200,128 @@ public class LoginActivity extends Activity {
         	  loginFailedAlert();
 
         	 Log.d("Message","Login unsuccessful");
-          //listener.onError("native", e);
           }
       }
     });
   }
+ public void linkTwitterUser(){
+	//Check and see if the user is linked to the account. If he or she is not linked, make the link
+	    final ParseUser user = ParseUser.getCurrentUser();
+	    if (user != null) {
+	    if (!ParseTwitterUtils.isLinked(user)) {
+	    	  ParseTwitterUtils.link(user, this, new SaveCallback() {
+	    	    @Override
+	    	    public void done(ParseException ex) {
+	    	      if (ParseTwitterUtils.isLinked(user)) {
+	    	        Log.d("MyApp", "Woohoo, user logged in with Twitter!");
+	    	      }
+	    	    }
+	    	  });
+	    	}
+	    }
+ }
  public void signupCallback(View v) {
+	 final View view = v;
 	  //Display a sign up alert to notify the user that they are being signed up
 	  createSignUpAlert();
 	 //Create a ProcessDialog to show the user that they are being signed up
 
 	  final ProgressDialog signupDialog = ProgressDialog.show(this, "",
 	        "Signing you up. Please wait ...", true);
+	  //Make sure that the user doesn't input a null value as the user name
+	  //if they do, return an alert and do not complete the signup
+	  String username = getLoginUserName();
+	  String password = getLoginPwd();
+	  if (username.length() < 1) {
+		  	invalidUsernameAlert();
+		    signupDialog.dismiss();
+          return;
+	  }
+	  if (password.length() <1){
+		  	invalidPasswordAlert();
+		    signupDialog.dismiss();
+		   return;
+
+	  }
 	  ParseUser newUser = new ParseUser();
   	  newUser.setUsername(getLoginUserName());
   	  newUser.setPassword(getLoginPwd());
   	  newUser.signUpInBackground(new SignUpCallback() {
   		  public void done(ParseException e) {
+  			  //Dismiss the signupDialog 
   			  signupDialog.dismiss();
   		    if (e == null) {
-  		      // Hooray! Let them use the app now.
+  		      // Signup successful!
+  		  	  Log.d("Message","Signed Up successfully");
+  			signedUpSuccessAlert();
+  			loginProgress();
+  	  	  	//Give the device sometime to update the info in parse.com. This may take a few seconds.
+  	  	  	//Use countdowntimer to do this
+  			final Handler handler = new Handler();
+  			handler.postDelayed(new Runnable() {
+  	        @Override
+  	        public void run() {
+  	            // Give the device 5 seconds to delay as we wait for the timer to update.
+  	        	//Once that is done, prompt the device to log in the user. 
+  	          loginCallback(view);
+
+
+  	        }
+  	    }, 10000);
   		    } else {
-  		      // Sign up didn't succeed. Look at the ParseException
-  		      // to figure out what went wrong
+  		      // Sign up didn't succeed. 
+  		    signupUnsuccessful();
+
   		    }
   		  }
+  		  
   		});
-        //startActivity(new Intent(LoginActivity.this, MainActivity.class));
-  	  Log.d("Message","Signed Up successfully");
-		signedUpSuccessAlert();
-  	  //Once signup, prompt the user to log in
-  	  loginCallback(v);
+  	  
   }
+ public void loginProgress(){
+	 ProgressDialog dialog = ProgressDialog.show(this, "",
+ 	        "Logging in ..." +
+ 	        "This may take a few seconds as we update your information", true);
+ }
+private void signupUnsuccessful(){
+	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+	builder.setMessage("SignUp failed. Try again or choose a different username...");
+	builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+	    public void onClick(DialogInterface dialog, int id) {
+	    }
+	});   
+	// Create the AlertDialog object and return it
+	builder.create();
+	builder.show();
+
+}
+private void invalidPasswordAlert() {
+	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+	builder.setMessage("Password cannot be blank. Choose a correct password");
+	builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+	    public void onClick(DialogInterface dialog, int id) {
+	    }
+	});   
+	// Create the AlertDialog object and return it
+	builder.create();
+	builder.show();
+}
+
+private void invalidUsernameAlert() {
+	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+	builder.setMessage("Username cannot be blank. Choose a correct username");
+	builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+	    public void onClick(DialogInterface dialog, int id) {
+	    }
+	});   
+	// Create the AlertDialog object and return it
+	builder.create();
+	builder.show();
+}
 
  private void signedUpSuccessAlert() {
 	AlertDialog.Builder builder = new AlertDialog.Builder(this);
-	builder.setMessage("Siged up successfully. " +
-			"Click login to proceed!");
+	builder.setMessage("Signed up successfully... ");
 	builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 	    public void onClick(DialogInterface dialog, int id) {
 	    }
@@ -226,7 +363,6 @@ public class LoginActivity extends Activity {
       final AlertDialog.Builder builder = new AlertDialog.Builder(this);
              builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                  public void onClick(DialogInterface dialog, int id) {
-                     // FIRE ZE MISSILES!
                  }
              });   
       // Create the AlertDialog object and return it
@@ -256,7 +392,6 @@ public class LoginActivity extends Activity {
 		builder.create();
 		builder.show();
 	}
-
  
 }
 
