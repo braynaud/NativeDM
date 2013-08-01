@@ -3,6 +3,7 @@ package com.example.nativeapp;
 import java.io.IOException;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.media.SoundPool.OnLoadCompleteListener;
@@ -90,6 +91,7 @@ public class MainActivity extends Activity implements OnTouchListener {
     
     @Override
     public boolean onTouch(View v, MotionEvent event) {
+    	final Activity mainActivityClass = this;
     	if(v==findViewById(R.id.Button01))
     	{
     		i=0;
@@ -133,6 +135,9 @@ public class MainActivity extends Activity implements OnTouchListener {
     	else if(v==findViewById(R.id.menu))
     	{
     		//switch to menu page
+    		Intent mainIntent = new Intent(mainActivityClass, MenuActivity.class);
+			startActivity(mainIntent);
+    		
     	}
     	else if(v==findViewById(R.id.kit1))
     	{
