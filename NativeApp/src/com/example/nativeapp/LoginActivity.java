@@ -350,7 +350,7 @@ private void invalidUsernameAlert() {
  */
 	public void loginSuccess(){
 
-	Intent loginSuccess = new Intent(this, MenuActivity.class);
+	Intent loginSuccess = new Intent(this, MainActivity.class);
 	startActivity(loginSuccess);
 	finish();
   }

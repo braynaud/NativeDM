@@ -62,10 +62,10 @@ public class MainActivity extends Activity implements OnTouchListener {
          // Load the sound
          soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
 
-         loadCurrentKit();
+         loadKit1();
     }
  
-    public void loadCurrentKit()
+    public void loadKit1()
 
     {
     	soundPool.setOnLoadCompleteListener(new OnLoadCompleteListener() {
@@ -76,7 +76,7 @@ public class MainActivity extends Activity implements OnTouchListener {
             }
         });
 
-    	currentkit[0] = soundPool.load(this, R.raw.kick, 1);
+    	currentkit[0] = soundPool.load(this, R.raw.kick2, 1);
     	currentkit[1] = soundPool.load(this, R.raw.snare, 1);
     	currentkit[2] = soundPool.load(this, R.raw.clap, 1);
     	currentkit[3] = soundPool.load(this, R.raw.cc, 1);
@@ -87,6 +87,49 @@ public class MainActivity extends Activity implements OnTouchListener {
 
     }
     
+    public void loadKit2()
+
+    {
+    	soundPool.setOnLoadCompleteListener(new OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int sampleId,
+                    int status) {
+                loaded = true;
+            }
+        });
+
+    	currentkit[0] = soundPool.load(this, R.raw.kick2, 1);
+    	currentkit[1] = soundPool.load(this, R.raw.snare2, 1);
+    	currentkit[2] = soundPool.load(this, R.raw.sound11, 1);
+    	currentkit[3] = soundPool.load(this, R.raw.sound2, 1);
+    	currentkit[4] = soundPool.load(this, R.raw.sound3, 1);
+    	currentkit[5] = soundPool.load(this, R.raw.sound4, 1);
+    	currentkit[6] = soundPool.load(this, R.raw.sound5, 1);
+    	currentkit[7] = soundPool.load(this, R.raw.sound6, 1);
+
+    }
+    
+    public void loadKit3()
+
+    {
+    	soundPool.setOnLoadCompleteListener(new OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int sampleId,
+                    int status) {
+                loaded = true;
+            }
+        });
+
+    	currentkit[0] = soundPool.load(this, R.raw.ag, 1);
+    	currentkit[1] = soundPool.load(this, R.raw.a4, 1);
+    	currentkit[2] = soundPool.load(this, R.raw.c4, 1);
+    	currentkit[3] = soundPool.load(this, R.raw.c5, 1);
+    	currentkit[4] = soundPool.load(this, R.raw.d4, 1);
+    	currentkit[5] = soundPool.load(this, R.raw.d5, 1);
+    	currentkit[6] = soundPool.load(this, R.raw.g4, 1);
+    	currentkit[7] = soundPool.load(this, R.raw.sound1, 1);
+
+    }
     public void play(int i, MotionEvent event)
     {
     	if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -158,15 +201,15 @@ public class MainActivity extends Activity implements OnTouchListener {
     	}
     	else if(v==findViewById(R.id.kit1))
     	{
-    		
+    		loadKit1();
     	}
     	else if(v==findViewById(R.id.kit2))
     	{
-    		
+    		loadKit2();
     	}
     	else if(v==findViewById(R.id.kit3))
     	{
-    		
+    		loadKit3();
     	}
     	
         return false;

@@ -15,5 +15,6 @@
   	<string name ="instructions">If you do not have an account, enter username and password and click "SIGNUP".</string>
     <string name="title_activity_menu">MenuActivity</string>
 	<string name="title_activity_browser">BrowserActivty</string>
+	<color name = "black">#FFFFFF</color>
 </resources>
 

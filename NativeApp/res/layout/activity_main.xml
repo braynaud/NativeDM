@@ -8,7 +8,8 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:screenOrientation="landscape"
-    android:windowSoftInputMode="stateAlwaysHidden"
+    android:focusable = "false"
+    android:background="#dddddd"
     tools:context=".MainActivity">
 
     <Button
@@ -54,10 +55,9 @@
         android:id="@+id/Button06"
         android:layout_width="110dp"
         android:layout_height="100dp"
-        android:layout_alignBaseline="@+id/Button05"
         android:layout_alignBottom="@+id/Button05"
+        android:layout_below="@+id/Button02"
         android:layout_toLeftOf="@+id/Button03"
-        
         android:tag="Button06" />
 
     <Button
@@ -73,10 +73,9 @@
         android:id="@+id/Button08"
         android:layout_width="110dp"
         android:layout_height="100dp"
-        android:layout_alignBaseline="@+id/Button07"
         android:layout_alignBottom="@+id/Button07"
         android:layout_alignLeft="@+id/Button04"
-        
+        android:layout_alignTop="@+id/Button07"
         android:tag="Button08" />
 
     <Button
@@ -88,15 +87,6 @@
         android:layout_marginLeft="31dp"
         android:layout_marginTop="38dp"
         android:tag="Button01" />
-
-    <Button
-        android:id="@+id/kit3"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/Button04"
-        android:layout_alignLeft="@+id/Button04"
-        android:text="kit 3" />
 
     <Button
         android:id="@+id/kit2"
@@ -126,5 +116,14 @@
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="14dp"
         android:text="menu" />
+
+    <Button
+        android:id="@+id/kit3"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/Button04"
+        android:layout_alignRight="@+id/Button04"
+        android:text="kit 3" />
 
 </RelativeLayout>
