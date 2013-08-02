@@ -157,16 +157,6 @@
         android:textOff="" />
 
     <ToggleButton
-        android:id="@+id/ToggleButton01"
-        android:layout_width="29dp"
-        android:layout_height="29dp"
-        android:layout_alignBaseline="@+id/timeDiv16"
-        android:layout_alignBottom="@+id/timeDiv16"
-        android:layout_toRightOf="@+id/timeDiv16"
-        android:textOn=""
-        android:textOff="" />
-
-    <ToggleButton
         android:id="@+id/timeDiv8"
         android:layout_width="29dp"
         android:layout_height="29dp"
@@ -292,13 +282,14 @@
         android:text="kit 1" />
 
     <SeekBar
-        android:id="@+id/seekBar1"
+        android:id="@+id/bpm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/pad2"
         android:layout_alignLeft="@+id/pad1"
-        android:layout_alignRight="@+id/kit3"
-        android:layout_marginBottom="15dp" />
+        android:layout_marginBottom="15dp"
+        android:layout_toLeftOf="@+id/timeDiv15"
+        android:max="90" />
 
     <ToggleButton
         android:id="@+id/playPause"
@@ -309,5 +300,14 @@
         android:layout_alignLeft="@+id/timeDiv6"
         android:textOn="Pause"
         android:textOff="Play" />
+
+    <TextView
+        android:id="@+id/bpmText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/kit3"
+        android:layout_alignTop="@+id/bpm"
+        android:text=""
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
 </RelativeLayout>
