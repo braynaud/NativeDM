@@ -1,12 +1,15 @@
 package com.example.nativeapp;
 
 import java.util.*;
+import java.util.concurrent.*;
 
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.media.SoundPool.OnLoadCompleteListener;
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.view.Menu;
@@ -22,9 +25,9 @@ public class SequencerActivity extends Activity implements OnTouchListener {
     private int[] soundID=new int[8];
     boolean loaded = false;
     private int i=0;
-    private Timer timer; 
-    private View padsel;
-    private boolean[] timeDivs=new boolean[16];
+    private ScheduledExecutorService timer;
+    private Button padSel;
+    private Button prevPad=null;//initial call sets padSel to null
     private boolean[] SoundOne=new boolean[16];
     private boolean[] SoundTwo=new boolean[16];
     private boolean[] SoundThree=new boolean[16];
@@ -37,6 +40,7 @@ public class SequencerActivity extends Activity implements OnTouchListener {
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		//onTouch listener on each button
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sequencer);
 		View a = findViewById(R.id.pad1);
@@ -104,6 +108,7 @@ public class SequencerActivity extends Activity implements OnTouchListener {
         	   @Override 
         	   public void onProgressChanged(SeekBar seekBpm, int progress, boolean fromUser) 
         	   {
+        		/**progress represents the bpm**/
         		progress+=60;
         	    // TODO Auto-generated method stub 
         	    bpm.setText(String.valueOf(progress)); 
@@ -124,12 +129,13 @@ public class SequencerActivity extends Activity implements OnTouchListener {
         // Set the hardware buttons to control the music
         // this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
         // Load the sound
-        soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
-        load();
+        soundPool = new SoundPool(8, AudioManager.STREAM_MUSIC, 0);
+        load();//function calls the method that will load the sounds
 	}
 
 	public void load()
     {
+		//all the sounds are loaded in advance
     	soundPool.setOnLoadCompleteListener(new OnLoadCompleteListener() {
             @Override
             public void onLoadComplete(SoundPool soundPool, int sampleId,
@@ -147,28 +153,26 @@ public class SequencerActivity extends Activity implements OnTouchListener {
   		soundID[7] = soundPool.load(this, R.raw.riffd4, 1);
     }
 	
+	//plays a sound and selects the corresponding pad
 	 public void play(int i, View v, MotionEvent event)
 	    {
+		 	padSel=prevPad;//prevPad is null, then the colored pad
 	    	if (event.getAction() == MotionEvent.ACTION_DOWN) {
-	            // Getting the user sound settings
-	            //AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
-	            //float actualVolume = (float) audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-	            //float maxVolume = (float) audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-	            //float volume = actualVolume / maxVolume;
 	            if (loaded) {
 	                soundPool.play(soundID[i], 1, 1, 1, 0, 1f);
 	            }
-	            ((Button)v).setBackgroundColor(Color.BLUE);
-	    		if(padsel!=null&&padsel!=v)
-	    			padsel.setBackgroundResource(android.R.drawable.btn_default);
-	            padsel=v;
+	            prevPad=((Button)v);
+	            (prevPad).setBackgroundColor(Color.BLUE);
+	    		if(padSel!=null&&padSel!=prevPad)
+	    			padSel.setBackgroundResource(android.R.drawable.btn_default);//button slightly changes
 	            
 	        }
 	    }
-	    
+	    //onTouch calls a function each time a button is clicked
 	    @Override
 	    public boolean onTouch(View v, MotionEvent event) 
 	    {
+	    	//pad buttons set the value of i (sound that will be played)
 	    	if(v==findViewById(R.id.pad1))
 	    	{
 	    		i=0;
@@ -216,7 +220,7 @@ public class SequencerActivity extends Activity implements OnTouchListener {
 	    	}
 	    	else if(v==findViewById(R.id.kit1))
 	    	{
-	    		
+	    		//implement loadKit method
 	    	}
 	    	else if(v==findViewById(R.id.kit2))
 	    	{
@@ -228,42 +232,53 @@ public class SequencerActivity extends Activity implements OnTouchListener {
 	    	}
 	    	else if(v==findViewById(R.id.playPause))
 	    	{
+	    		//starts and cancels sequencer. some issues to fix
+	    		boolean on = ((ToggleButton) v).isChecked();
+
+	    		if(on)
+	    			seqPause();
+	    		else
 	    			seqPlay();
 	    	}
-	    	else if(v==findViewById(R.id.timeDiv1))
-	    		setPlay(0);
-	    	else if(v==findViewById(R.id.timeDiv2))
-	    		setPlay(1);
-	    	else if(v==findViewById(R.id.timeDiv3))
-	    		setPlay(2);
-	    	else if(v==findViewById(R.id.timeDiv4))
-	    		setPlay(3);
-	    	else if(v==findViewById(R.id.timeDiv5))
-	    		setPlay(4);
-	    	else if(v==findViewById(R.id.timeDiv6))
-	    		setPlay(5);
-	    	else if(v==findViewById(R.id.timeDiv7))
-	    		setPlay(6);
-	    	else if(v==findViewById(R.id.timeDiv8))
-	    		setPlay(7);
-	    	else if(v==findViewById(R.id.timeDiv9))
-	    		setPlay(8);
-	    	else if(v==findViewById(R.id.timeDiv10))
-	    		setPlay(9);
-	    	else if(v==findViewById(R.id.timeDiv11))
-	    		setPlay(10);
-	    	else if(v==findViewById(R.id.timeDiv12))
-	    		setPlay(11);
-	    	else if(v==findViewById(R.id.timeDiv13))
-	    		setPlay(12);
-	    	else if(v==findViewById(R.id.timeDiv14))
-	    		setPlay(13);
-	    	else if(v==findViewById(R.id.timeDiv15))
-	    		setPlay(14);
-	    	else if(v==findViewById(R.id.timeDiv16))
-	    		setPlay(15);
+	    	//each time division calls the setPlay() method with its corresponding position in the soundDiv array
+	    	if(padSel!=null&&padSel!=prevPad)
+	    	{
+	    		if(v==findViewById(R.id.timeDiv1))
+	    			setPlay(0);
+	    		else if(v==findViewById(R.id.timeDiv2))
+	    			setPlay(1);
+	    		else if(v==findViewById(R.id.timeDiv3))
+	    			setPlay(2);
+	    		else if(v==findViewById(R.id.timeDiv4))
+	    			setPlay(3);
+	    		else if(v==findViewById(R.id.timeDiv5))
+	    			setPlay(4);
+	    		else if(v==findViewById(R.id.timeDiv6))
+	    			setPlay(5);
+	    		else if(v==findViewById(R.id.timeDiv7))
+	    			setPlay(6);
+	    		else if(v==findViewById(R.id.timeDiv8))
+	    			setPlay(7);
+	    		else if(v==findViewById(R.id.timeDiv9))
+	    			setPlay(8);
+	    		else if(v==findViewById(R.id.timeDiv10))
+	    			setPlay(9);
+	    		else if(v==findViewById(R.id.timeDiv11))
+	    			setPlay(10);
+	    		else if(v==findViewById(R.id.timeDiv12))
+	    			setPlay(11);
+	    		else if(v==findViewById(R.id.timeDiv13))
+	    			setPlay(12);
+	    		else if(v==findViewById(R.id.timeDiv14))
+	    			setPlay(13);
+	    		else if(v==findViewById(R.id.timeDiv15))
+	    			setPlay(14);
+	    		else if(v==findViewById(R.id.timeDiv16))
+	    			setPlay(15);
+	    	}
 	        return false;
 	    }
+	    
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
@@ -271,33 +286,15 @@ public class SequencerActivity extends Activity implements OnTouchListener {
 		getMenuInflater().inflate(R.menu.sequencer, menu);
 		return true;
 	}
-	
 
+	
+	//for each divPlay (changed in timer) checks which sounds will be played, this is where we need to start threading, we'll need to
+	//synchronize them with the timer
 	public void setPlay(int divPlay)
 	{
-
-		ToggleButton v;
-		
-    	v=(ToggleButton)findViewById(R.id.timeDiv2);
-    	v=(ToggleButton)findViewById(R.id.timeDiv3);
-    	v=(ToggleButton)findViewById(R.id.timeDiv4);
-    	v=(ToggleButton)findViewById(R.id.timeDiv5);
-    	v=(ToggleButton)findViewById(R.id.timeDiv6);
-    	v=(ToggleButton)findViewById(R.id.timeDiv7);
-    	v=(ToggleButton)findViewById(R.id.timeDiv8);
-    	v=(ToggleButton)findViewById(R.id.timeDiv9);
-    	v=(ToggleButton)findViewById(R.id.timeDiv10);
-    	v=(ToggleButton)findViewById(R.id.timeDiv11);
-    	v=(ToggleButton)findViewById(R.id.timeDiv12);
-    	v=(ToggleButton)findViewById(R.id.timeDiv13);
-    	v=(ToggleButton)findViewById(R.id.timeDiv14);
-    	v=(ToggleButton)findViewById(R.id.timeDiv15);
-    	v=(ToggleButton)findViewById(R.id.timeDiv16);
 		switch(i)
 		{
 			case 0: SoundOne[divPlay]=!SoundOne[divPlay];
-			v=(ToggleButton)findViewById(R.id.timeDiv1);
-			v.setChecked(true);
 			break;
 			case 1: SoundTwo[divPlay]=!SoundTwo[divPlay];
 			break;
@@ -316,37 +313,46 @@ public class SequencerActivity extends Activity implements OnTouchListener {
 		}
 	}
 	
+	//Pauses the timer and the sequence, does not work yet for some reason
+	public void seqPause()
+	{
+		timer.shutdown();
+	}
+	
+	//creates a new scheduledthreadpoolexecutor, previously timer every time the play button is pressed, should be canceled on pause
 	public void seqPlay()
 	{
-		timer = new Timer();
-		timer.scheduleAtFixedRate(new TimerTask() 
+		System.out.println("function called");
+		timer=Executors.newScheduledThreadPool(2);
+		timer.scheduleAtFixedRate(new Runnable() 
 		{
-			  @Override
-			  public void run() 
-			  {
-			    int j=0;
-			    if(SoundOne[j])
-			    	soundPool.play(soundID[0], 1, 1, 1, 0, 1f);
-			    if(SoundTwo[j])
-			    	soundPool.play(soundID[1], 1, 1, 1, 0, 1f);
-			    if(SoundThree[j])
-			    	soundPool.play(soundID[2], 1, 1, 1, 0, 1f);
-			    if(SoundFour[j])
-			    	soundPool.play(soundID[3], 1, 1, 1, 0, 1f);
-			    if(SoundFive[j])
-			    	soundPool.play(soundID[4], 1, 1, 1, 0, 1f);
-			    if(SoundSix[j])
-			    	soundPool.play(soundID[5], 1, 1, 1, 0, 1f);
-			    if(SoundSeven[j])
-			    	soundPool.play(soundID[6], 1, 1, 1, 0, 1f);
-			    if(SoundEight[j])
-			    	soundPool.play(soundID[7], 1, 1, 1, 0, 1f);
-			    ++j;
-			    if(j==16)
-			    	j=0;
-			    timer.cancel();
-			  }
-		}, 0, 1000);
+			
+		      public void run() 
+		      {
+		    	  System.out.println("in loop");
+		    	  int j=0;
+		    	  if(SoundOne[j])
+		    		  soundPool.play(soundID[0], 1, 1, 1, 0, 1f);
+		    	  if(SoundTwo[j])
+		    		  soundPool.play(soundID[1], 1, 1, 1, 0, 1f);
+		    	  if(SoundThree[j])
+		    		  soundPool.play(soundID[2], 1, 1, 1, 0, 1f);
+		    	  if(SoundFour[j])
+		    		  soundPool.play(soundID[3], 1, 1, 1, 0, 1f);
+		    	  if(SoundFive[j])
+		    		  soundPool.play(soundID[4], 1, 1, 1, 0, 1f);
+		    	  if(SoundSix[j])
+		    		  soundPool.play(soundID[5], 1, 1, 1, 0, 1f);
+		    	  if(SoundSeven[j])
+		    		  soundPool.play(soundID[6], 1, 1, 1, 0, 1f);
+		    	  if(SoundEight[j])
+		    		  soundPool.play(soundID[7], 1, 1, 1, 0, 1f);
+		    	  ++j;
+		    	  if(j==16)
+		    		  j=0;
+		    	  
+		      }
+		}, 0, 2000, TimeUnit.MILLISECONDS);
 		
 	}
 	
