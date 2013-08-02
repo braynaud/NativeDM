@@ -263,13 +263,13 @@ public class LoginActivity extends Activity {
   			handler.postDelayed(new Runnable() {
   	        @Override
   	        public void run() {
-  	            // Give the device 5 seconds to delay as we wait for the timer to update.
+  	            // Give the device 8 seconds to delay as we wait for the timer to update.
   	        	//Once that is done, prompt the device to log in the user. 
   	          loginCallback(view);
 
 
   	        }
-  	    }, 10000);
+  	    }, 8000);
   		    } else {
   		      // Sign up didn't succeed. 
   		    signupUnsuccessful();
