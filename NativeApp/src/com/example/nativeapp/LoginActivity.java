@@ -4,23 +4,33 @@
  * @author Derrick Orare
  */
 package com.example.nativeapp;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.Signature;
 import android.graphics.Color;
 import android.graphics.PorterDuff.Mode;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
 import com.parse.LogInCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
+import com.parse.ParseFacebookUtils;
 import com.parse.ParseTwitterUtils;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -55,7 +65,7 @@ public class LoginActivity extends Activity {
    * Facebook app consumer secret
    */
   
-  protected String facebookConsumerKey;
+  protected String facebookID = "501787246571625";
   
   /**
    * This is the onCreate method
@@ -64,10 +74,25 @@ public class LoginActivity extends Activity {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+ // Add code to print out the key hash
+    try {
+        PackageInfo info = getPackageManager().getPackageInfo(
+                "com.example.nativeapp", 
+                PackageManager.GET_SIGNATURES);
+        for (Signature signature : info.signatures) {
+            MessageDigest md = MessageDigest.getInstance("SHA");
+            md.update(signature.toByteArray());
+            Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            }
+    } catch (NameNotFoundException e) {
+
+    } catch (NoSuchAlgorithmException e) {
+
+    }
 
     Parse.initialize(this, applicationId, clientKey);
     ParseTwitterUtils.initialize(twitterConsumerKey, twitterConsumerSecret);
-    //ParseFacebookUtils.initialize(applicationId);
+    ParseFacebookUtils.initialize(facebookID);
     
     setContentView(R.layout.main);
     ((Button) findViewById(R.id.login)).getBackground().setColorFilter(Color.parseColor("#989898"), Mode.SRC_ATOP);
@@ -77,6 +102,13 @@ public class LoginActivity extends Activity {
     
     
   }
+  
+  @Override
+  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+      super.onActivityResult(requestCode, resultCode, data);
+      ParseFacebookUtils.finishAuthentication(requestCode, resultCode, data);
+  }
+  
 
   /**
    * This is the TWITTER LOGIN CALLBACK
@@ -86,20 +118,37 @@ public class LoginActivity extends Activity {
   public void twitterCallback(View v) {
 	  final ProgressDialog loginDialog = ProgressDialog.show(this, "",
 		        "Logging in. Please wait ...", true);
+	  //Get the users inputed USERNAME and PASSWORD from the login page 
+	    String username = getLoginUserName();
+	    String password = getLoginPwd();
+	    //Verify that the user names and password are valid before you register the user
+		  if (username.length() < 1) {
+			  	invalidUsernameAlert();
+			    loginDialog.dismiss();
+			    return;
+		  }
+		  if (password.length() <1){
+			  	invalidPasswordAlert();
+			    loginDialog.dismiss();
+			    return;
+		  }
     ParseTwitterUtils.logIn(this, new LogInCallback() {
       @Override
       public void done(ParseUser user, ParseException err) {
     	  loginDialog.dismiss();
         if (user == null) {
+        	loginDialog.dismiss();
+        	loginFailedAlert();
         } else if (user.isNew()) {
+        	loginDialog.dismiss();
         	signedUpSuccessAlert();
         	//After someone has been signed up, link their accounts to parse using the 
         	//TwitterUtils.link to make sure they are linked to their account
-        	linkTwitterUser();
+        	//linkTwitterUser();
         	
         } else {
-        	
-          loginSuccess();
+        loginDialog.dismiss();
+         loginSuccess();
  
         }
       }
@@ -114,7 +163,9 @@ public class LoginActivity extends Activity {
    * @param facebookConsumerKey, facebookConsumerSecret
    */
 
- /* public void facebookCallback(View v) {
+ public void facebookCallback(View v) {
+	//final ProgressDialog dialog = ProgressDialog.show(this, "",
+	           // "Logging in ...", true);
    //Get the users inputed USERNAME and PASSWORD from the login page 
     String username = getLoginUserName();
     String password = getLoginPwd();
@@ -122,27 +173,41 @@ public class LoginActivity extends Activity {
     //Verify that the usernames and password are valid before you register the user
 	  if (username.length() < 1) {
 		  	invalidUsernameAlert();
-		    dialog.dismiss();
+		   // dialog.dismiss();
 		    return;
 	  }
 	  if (password.length() <1){
 		  	invalidPasswordAlert();
-		    dialog.dismiss();
+		  //  dialog.dismiss();
 		    return;
 	  }
-    ParseTwitterUtils.logIn(this, new LogInCallback() {
-      @Override
+    ParseFacebookUtils.logIn(this, new LogInCallback() {
+    	@Override
       public void done(ParseUser user, ParseException err) {
         if (user == null) {
-          listener.onError("facebook", err);
+            Log.d("MyApp", "Uh oh. The user cancelled the Facebook login.");
+
+        	//dialog.dismiss();
+        	Log.d("MyApp", "User signed up and logged in through Facebook!");
+
+        	loginFailedAlert();
         } else if (user.isNew()) {
-          listener.onSignup("facebook", user);
+      	   //dialog.dismiss();
+        	Log.d("MyApp", "User logged in through Facebook!");
+        	Log.d("user.getUsername",""+ user.getUsername());
+            Log.d("user.getEmail",""+ user.getEmail());
+            Log.d("user.getObjectId",""+ user.getObjectId());
+        	signedUpSuccessAlert();
+        	//After someone has been signed up, link their accounts to parse using the 
+        	//TwitterUtils.link to make sure they are linked to their account
+        	linkFacebookUser();
         } else {
-          listener.onSignin("facebook", user);
-        }
+      	  //dialog.dismiss();
+        	loginSuccess();        
+        	}
       }
     });
-  }*/
+  }
   
   
   /**
@@ -215,7 +280,23 @@ public class LoginActivity extends Activity {
 	    	    @Override
 	    	    public void done(ParseException ex) {
 	    	      if (ParseTwitterUtils.isLinked(user)) {
-	    	        Log.d("MyApp", "Woohoo, user logged in with Twitter!");
+	    	        Log.d("Drum Machine App", "user logged in with Twitter!");
+	    	      }
+	    	    }
+	    	  });
+	    	}
+	    }
+ }
+ public void linkFacebookUser(){
+	//Check and see if the user is linked to the account. If he or she is not linked, make the link
+	    final ParseUser user = ParseUser.getCurrentUser();
+	    if (user != null) {
+	    if (!ParseFacebookUtils.isLinked(user)) {
+	    	ParseFacebookUtils.link(user, this, new SaveCallback() {
+	    	    @Override
+	    	    public void done(ParseException ex) {
+	    	      if (ParseFacebookUtils.isLinked(user)) {
+	    	        Log.d("Drum Machine App", "user logged in with Facebook!");
 	    	      }
 	    	    }
 	    	  });
