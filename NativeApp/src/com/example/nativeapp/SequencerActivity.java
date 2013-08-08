@@ -25,6 +25,8 @@ public class SequencerActivity extends Activity implements OnTouchListener {
     private int[] soundID=new int[8];
     boolean loaded = false;
     private int i=0;
+    private int j=0;
+    private int bpmVal=500;
     private ScheduledExecutorService timer;
     private Button padSel;
     private Button prevPad=null;//initial call sets padSel to null
@@ -110,6 +112,7 @@ public class SequencerActivity extends Activity implements OnTouchListener {
         	   {
         		/**progress represents the bpm**/
         		progress+=60;
+        		bpmVal=(int)500*progress/120;
         	    // TODO Auto-generated method stub 
         	    bpm.setText(String.valueOf(progress)); 
         	   } 
@@ -241,7 +244,7 @@ public class SequencerActivity extends Activity implements OnTouchListener {
 	    			seqPlay();
 	    	}
 	    	//each time division calls the setPlay() method with its corresponding position in the soundDiv array
-	    	if(padSel!=null&&padSel!=prevPad)
+	    	if(padSel!=null)
 	    	{
 	    		if(v==findViewById(R.id.timeDiv1))
 	    			setPlay(0);
@@ -292,6 +295,7 @@ public class SequencerActivity extends Activity implements OnTouchListener {
 	//synchronize them with the timer
 	public void setPlay(int divPlay)
 	{
+		System.out.println("i="+i+" is this function called?");
 		switch(i)
 		{
 			case 0: SoundOne[divPlay]=!SoundOne[divPlay];
@@ -316,21 +320,19 @@ public class SequencerActivity extends Activity implements OnTouchListener {
 	//Pauses the timer and the sequence, does not work yet for some reason
 	public void seqPause()
 	{
-		timer.shutdown();
+		timer.shutdownNow();
 	}
 	
 	//creates a new scheduledthreadpoolexecutor, previously timer every time the play button is pressed, should be canceled on pause
 	public void seqPlay()
 	{
-		System.out.println("function called");
 		timer=Executors.newScheduledThreadPool(2);
 		timer.scheduleAtFixedRate(new Runnable() 
 		{
 			
 		      public void run() 
 		      {
-		    	  System.out.println("in loop");
-		    	  int j=0;
+		    	  System.out.println(SoundOne[j]+","+SoundTwo[j]+","+SoundEight[j]);
 		    	  if(SoundOne[j])
 		    		  soundPool.play(soundID[0], 1, 1, 1, 0, 1f);
 		    	  if(SoundTwo[j])
@@ -352,7 +354,7 @@ public class SequencerActivity extends Activity implements OnTouchListener {
 		    		  j=0;
 		    	  
 		      }
-		}, 0, 2000, TimeUnit.MILLISECONDS);
+		}, 0, bpmVal, TimeUnit.MILLISECONDS);
 		
 	}
 	
